@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>简易图片点击放大Demo</title>
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	</head>
+	<body>
+		<div id="app">
+			<div class="img-list" v-for="(image,index) in img" :key="index" @click="change(index)">
+				<img :src="image"@click="ClickImg($event);SpanLeftClick($event)">
+			</div>
+				<div v-show="ImgBoxShow" id="img-box-id" class="img-box-package"  @click="ImgBoxHide">
+					<div class="img-box">
+						<img class="img-zoom-show" :src="imgs">
+					</div>
+				</div>
+		</div>
+		<script type="text/javascript">
+			new Vue({
+				el:'#app',
+				data:{
+					img:[
+						"./images/1.jpg",	
+						"./images/2.gif",
+						"./images/1.jpg",
+						"./images/1.jpg",
+						"./images/2.gif",
+						"./images/2.gif"
+					],
+					imgIndex:'',
+					imgs:'',
+					ImgBoxShow:false,
+					mark:''
+				},
+				methods:{
+					ClickImg:function(e){
+						var clientHeight = document.body.clientHeight;
+						var ImgBoxId = document.getElementById('img-box-id');
+						ImgBoxId.style.height = clientHeight+50+"px";
+						this.ImgBoxShow=!this.ImgBoxShow;
+						this.imgs = e.currentTarget.src;
+						// console.log("ImgBox State",this.imgs);
+						// console.log("ImgBoxShow State",this.ImgBoxShow,clientHeight,ImgBoxId);
+						
+					},
+					ImgBoxHide:function(){
+						this.ImgBoxShow=false;
+						// console.log("ImgBoxShow State",this.ImgBoxShow);
+					}
+				}		
+			});
+		</script>
+		<style type="text/css">
+			body{
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				
+			}
+			.img-zoom-show{
+				background-color: aquamarine;
+				width: 500px;
+				height: 500px;
+				
+			}
+			.img-box-package{
+				background-color: rgba(90, 90, 90, 0.5);
+				width: 100%;
+				height: 100vh;
+				position: absolute;
+				top: 0;
+				left: 0;
+			}
+			.img-box-package .img-box{
+				background-color: black;
+				width: 500px;
+				position: fixed;
+				top: 20%;
+				left: 40%;
+				z-index: 999;
+/* 				padding:20px 0 20px; */
+				overflow: hidden;
+			}
+			
+			.img-list{
+				cursor: pointer;
+			}
+		</style>
+	</body>
+</html>
